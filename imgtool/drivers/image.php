@@ -61,7 +61,7 @@ namespace imgtool\drivers {
 
 		abstract public function crop($x,$y,$w,$h);
 
-		/* boolean resize(int width, int height);
+		/* boolean resize(int width, int height)
 		 * resize the image to these dimentions without a care in the world as
 		 * to how stupid the image may look out of proportion.
 		 */
@@ -86,25 +86,59 @@ namespace imgtool\drivers {
 			return;
 		}
 
+		/* void thumbnail(int width, int height);
+		 * scale an image and crop it to produce a perfect cut thumbnail of the
+		 * size asked for.
+		 */
+
+		public function thumbnail($size) {
+
+			// fill fit the image to the size we need
+			if($this->width > $this->height) $this->scale(-1,$size);
+			else $this->scale($size,-1);
+
+			// then crop the excess off.
+			$x = ($this->width / 2) - ($size / 2);
+			$y = ($this->height / 2) - ($size / 2);
+			$this->crop($x,$y,$size,$size);
+			
+			return;
+		}
+
 		////////////////////////////////////////////////////////////////////////
 		// utilities ///////////////////////////////////////////////////////////
 
 		/* array calcScaleSize(int width, int height);
 		 * given max values, calculate the values we really want to use if we
-		 * wish to keep the image aspect ratio in check.
+		 * wish to keep the image aspect ratio in check. if one of the values is
+		 * less than 0 (i.e. standard -1) then that value will be fill fit to
+		 * by the other value.
 		 */
 
 		public function calcScaleSize($w,$h) {
+			if($w < 0 && $h < 0)
+			throw new \Exception('durr cant has both autofit');	
 
-			if($this->width > $this->height) {
-				$width = $w;
-				$height = ceil(($w * $this->height) / $this->width);
+			if($w < 0 || $h < 0) {
+				// handle fill fit
+				if($w < 0) goto calc_scale_size_do_w;
+				if($h < 0) goto calc_scale_size_do_h;
 			} else {
-				$height = $h;
-				$height = ceil(($h * $this->width) / $this->height);				
+				// handle best fit
+				if($this->width > $this->height) goto calc_scale_size_do_h;
+				else goto calc_scale_size_do_w;
 			}
 
-			return array($width,$height);
+			calc_scale_size_do_h:
+				$width = $w;
+				$height = ceil(($w * $this->height) / $this->width);
+				return array($width,$height);
+
+			calc_scale_size_do_w:
+				$height = $h;
+				$width = ceil(($h * $this->width) / $this->height);
+				return array($width,$height);	
+
 		}
 
 	}
