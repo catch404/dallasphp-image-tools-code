@@ -9,6 +9,33 @@ namespace imgtool\drivers\gd {
 
 	class image extends imgtool\drivers\image {
 
+		public function crop($x,$y,$w,$h) {
+			$new = imagecreatetruecolor($w,$h);
+
+			$ok = imagecopyresampled(
+				$new,       // destination
+				$this->img, // source
+				0, 0,       // destination cords
+				$x, $y,     // source coords
+				$w, $h,     // destination size
+				$w, $h      // source size
+			);
+
+			if($ok) {
+				// update properties.
+				$this->width = $w;
+				$this->height = $h;
+
+				// resource swap.
+				imagedestroy($this->img);
+				$this->img = $new;
+
+				return true;
+			} else {
+				return false;
+			}
+		}
+
 		public function free() {
 			if($this->img) imagedestroy($this->img);
 			foreach($this as $prop => $value) $this->{$prop} = null;
@@ -51,7 +78,10 @@ namespace imgtool\drivers\gd {
 			// are fairly sure we have an image sitting in RAM.
 			$this->width = $info[0];
 			$this->height = $info[1];
-			$this->mime = $info['mime'];
+
+			imagealphablending($this->img,true);
+			imageantialias($this->img,true);
+			imagesavealpha($this->img,true);
 
 			return;
 		}
@@ -60,20 +90,20 @@ namespace imgtool\drivers\gd {
 			$new = imagecreatetruecolor($w,$h);
 
 			$ok = imagecopyresampled(
-				$new,
-				$this->img,
-				0, 0, // dest coords
-				0, 0, // source coords
-				$w, $h, // dest size
+				$new,       // destination
+				$this->img, // source
+				0, 0,       // destination coords
+				0, 0,       // source coords
+				$w, $h,     // destination size
 				$this->width, $this->height // source size
 			);
 
 			if($ok) {
-				// note the new size.
+				// update properties.
 				$this->width = $w;
 				$this->height = $h;
 
-				// free old resources, keep new.
+				// resource swap.
 				imagedestroy($this->img);
 				$this->img = $new;
 
@@ -94,8 +124,9 @@ namespace imgtool\drivers\gd {
 				// png quality is actually compression level 0 to 9
 				$quality = floor($quality/10)-1;
 				return imagepng($this->img,$outfile,$quality);
-			}			
+			}	
 
+			return false;		
 		}
 
 	}

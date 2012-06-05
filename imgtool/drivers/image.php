@@ -6,7 +6,6 @@ namespace imgtool\drivers {
 		// physical, meta, and metaphysical properties.
 		public $filename;
 		public $width,$height;
-		public $mime;
 
 		// a resource holder.
 		protected $img;
@@ -56,7 +55,13 @@ namespace imgtool\drivers {
 		// these methods must be implemented by the driver to provide support
 		// for the rest of the suite.
 
-		/* void resize(int width, int height);
+		/* boolean crop(int x, int y, int width, int height);
+		 * crop the image to the selection.
+		 */
+
+		abstract public function crop($x,$y,$w,$h);
+
+		/* boolean resize(int width, int height);
 		 * resize the image to these dimentions without a care in the world as
 		 * to how stupid the image may look out of proportion.
 		 */
