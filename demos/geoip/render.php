@@ -37,6 +37,11 @@ foreach($geodat as $iter => $point) {
 // save map to disk.
 m_printfln('saving map to disk...');
 $imgtool->save($outfile,100);
-m_printfln('done (%s)',m_exec_time());
+
+m_printfln(
+	'done (%s, %s MB RAM)',
+	m_exec_time(),
+	number_format((memory_get_peak_usage(true) / 1024) / 1024)
+);
 
 ?>
