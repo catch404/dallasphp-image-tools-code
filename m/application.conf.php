@@ -1,27 +1,44 @@
 <?php
 
 namespace m {
-	ki::queue('m-init',function(){
-		ini_set('memory_limit','1G');
-	});
+	ini_set('memory_limit','1G');
 
-	ki::queue('m-ready',function(){
+	////////////////////////////////////////////////////////////////////////////
+	// config ki for cli access ////////////////////////////////////////////////
 
-		// imgtool ready check
-		// make sure we said to use gd or imagick.
+	if(php_sapi_name() === 'cli') {
 
-		$cli = new cli;
+		ki::queue('m-ready',function(){
 
-		if($cli->gd) m_define('IMGTOOL_DRIVER','gd');
-		if($cli->imagick) m_define('IMGTOOL_DRIVER','imagick');
+			$cli = new cli;
+			if($cli->gd) m_define('IMGTOOL_DRIVER','gd');
+			if($cli->imagick) m_define('IMGTOOL_DRIVER','imagick');
 
-		if(!defined('IMGTOOL_DRIVER')) {
-			m_printfln('STOP BEING BAD, TELL ME --gd OR --imagick NUBKAKE');
-			$cli->shutdown();
-		}
+			if(!defined('IMGTOOL_DRIVER')) {
+				m_printfln('STOP BEING BAD, TELL ME --gd OR --imagick NUBKAKE');
+				$cli->shutdown();
+			}
 
-		return;
-	});
+			return;
+		});
+		
+	}
+
+	////////////////////////////////////////////////////////////////////////////
+	// config ki for web access ////////////////////////////////////////////////
+
+	if(php_sapi_name() !== 'cli') {
+
+		ki::queue('m-init',function(){
+			m_require('-lsurface');
+		});
+
+		ki::queue('m-config',function(){
+			option::set('m-surface-autorun',true);
+		});
+
+	}
+
 }
 
 ?>

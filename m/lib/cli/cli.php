@@ -5,6 +5,7 @@ namespace m {
 	class cli {
 	
 		public $argv = array();
+		public $args = array();
 	
 		public function __construct() {
 			$this->parseArguments();
@@ -65,10 +66,15 @@ namespace m {
 			if(!array_key_exists('argv',$_SERVER)) return;
 			if(!is_array($_SERVER['argv'])) return;
 			
-			foreach($_SERVER['argv'] as $argv) {
+			$input = $_SERVER['argv'];
+			unset($input[0]);
+
+			foreach($input as $argv) {
 				if(preg_match('/--([a-z0-9-]+)(?:(=)(.*))?/i',$argv,$match)) {
 					if($match[2] == '=') $this->argv[$match[1]] = $match[3];
 					else $this->argv[$match[1]] = true;
+				} else {
+					$this->args[] = $argv;
 				}
 			}
 			

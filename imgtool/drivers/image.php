@@ -101,7 +101,7 @@ namespace imgtool\drivers {
 			$x = ($this->width / 2) - ($size / 2);
 			$y = ($this->height / 2) - ($size / 2);
 			$this->crop($x,$y,$size,$size);
-			
+
 			return;
 		}
 
