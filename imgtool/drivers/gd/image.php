@@ -133,6 +133,22 @@ namespace imgtool\drivers\gd {
 		}
 
 		////////////////////////////////////////////////////////////////////////
+		// private gd things ///////////////////////////////////////////////////
+
+		protected function allocateColorFromHex($color) {
+			preg_match('/#(.{2})(.{2})(.{2})(.{2})?/',$color,$hex);
+			if(!array_key_exists(4,$hex)) $hex[4] = 'FF';
+
+			$color = imagecolorallocatealpha(
+				$this->img,
+				hexdec($hex[1]),hexdec($hex[2]),hexdec($hex[3]),
+				127 - floor((127 * hexdec($hex[4])) / 255)
+			);
+
+			return $color;
+		} 
+
+		////////////////////////////////////////////////////////////////////////
 		// visual filters //////////////////////////////////////////////////////
 
 		public function alpha($percent) {
@@ -226,14 +242,7 @@ namespace imgtool\drivers\gd {
 		}
 
 		public function text($x,$y,$font,$size,$color,$text) {
-			preg_match('/#(.{2})(.{2})(.{2})(.{2})?/',$color,$hex);
-			if(!array_key_exists(4,$hex)) $hex[4] = 'FF';
-			$color = imagecolorallocatealpha(
-				$this->img,
-				hexdec($hex[1]),hexdec($hex[2]),hexdec($hex[3]),
-				127 - floor((127 * hexdec($hex[4])) / 255)
-			);
-
+			$color = $this->allocateColorFromHex($color);
 			$fontfile = sprintf(
 				'%s/share/fonts/%s.ttf',
 				dirname(dirname(dirname(__FILE__))),
@@ -266,6 +275,17 @@ namespace imgtool\drivers\gd {
 				$overlay->width,$overlay->height
 			);
 
+			return;
+		}
+
+		////////////////////////////////////////////////////////////////////////
+		// plotting ////////////////////////////////////////////////////////////
+
+		public function dot($x,$y,$diam,$color) {
+			$x -= floor($diam/2);
+			$y -= floor($diam/2);
+			$color = $this->allocateColorFromHex($color);
+			imagefilledellipse($this->img,$x,$y,$diam,$diam,$color);
 			return;
 		}
 

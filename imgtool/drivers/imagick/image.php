@@ -61,7 +61,7 @@ namespace imgtool\drivers\imagick {
 
 			// set quality on filetypes that use it.
 			if(preg_match('/\.jpe?g$/i',$outfile))
-			$this->img->setCompressionQuality($quality);
+			$this->img->setImageCompressionQuality($quality);
 
 			return $this->img->writeImage($outfile);		
 		}
@@ -116,8 +116,8 @@ namespace imgtool\drivers\imagick {
 			// fading out the edges.
 			$this->img->setImageBackgroundColor('black');
 			$this->img->vignetteImage(
-				($vigx*0.3),
-				($vigx*0.3),
+				($vigx*1.1),
+				($vigx*0.8),
 				($vigx/5)*-1,
 				($vity/5)*-1
 			);
@@ -158,6 +158,22 @@ namespace imgtool\drivers\imagick {
 				\Imagick::COMPOSITE_DEFAULT,
 				($this->width-$overlay->width),($this->height-$overlay->height)
 			);
+
+			return;
+		}
+
+		////////////////////////////////////////////////////////////////////////
+		// plotting ////////////////////////////////////////////////////////////
+
+		public function dot($x,$y,$diam,$color) {
+			$x -= floor($diam/2);
+			$y -= floor($diam/2);
+
+			$draw = new \ImagickDraw;
+			$draw->setFillColor(new \ImagickPixel($color));
+			$draw->ellipse($x,$y,($diam/2),($diam/2),0,360);
+
+			$this->img->drawImage($draw);
 
 			return;
 		}
