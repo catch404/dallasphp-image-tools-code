@@ -225,6 +225,33 @@ namespace imgtool\drivers\gd {
 			return;
 		}
 
+		public function text($x,$y,$font,$size,$color,$text) {
+			preg_match('/#(.{2})(.{2})(.{2})(.{2})?/',$color,$hex);
+			if(!array_key_exists(4,$hex)) $hex[4] = 'FF';
+			$color = imagecolorallocatealpha(
+				$this->img,
+				hexdec($hex[1]),hexdec($hex[2]),hexdec($hex[3]),
+				127 - floor((127 * hexdec($hex[4])) / 255)
+			);
+
+			$fontfile = sprintf(
+				'%s/share/fonts/%s.ttf',
+				dirname(dirname(dirname(__FILE__))),
+				$font
+			);
+
+			imagettftext(
+				$this->img,
+				$size, 0,
+				$x, ($y+$size),
+				$color,
+				$fontfile,
+				$text
+			);
+
+			return;
+		}
+
 		public function watermark($filename) {
 			$overlay = new imgtool\image($filename);
 			$overlay->desaturate();

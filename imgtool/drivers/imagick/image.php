@@ -130,6 +130,24 @@ namespace imgtool\drivers\imagick {
 			return;
 		}
 
+		public function text($x,$y,$font,$size,$color,$text) {
+			$color = new \ImagickPixel($color);
+			$fontfile = sprintf(
+				'%s/share/fonts/%s.ttf',
+				dirname(dirname(dirname(__FILE__))),
+				$font
+			);
+
+			$draw = new \ImagickDraw;
+			$draw->setFont($fontfile);
+			$draw->setFontSize($size);
+			$draw->setFillColor($color);
+
+			$this->img->annotateImage($draw,$x,($y+$size),0,$text);
+
+			return;
+		}
+
 		public function watermark($filename) {
 			$overlay = new imgtool\image($filename);
 			$overlay->desaturate();
