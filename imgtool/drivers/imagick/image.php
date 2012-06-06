@@ -9,6 +9,9 @@ namespace imgtool\drivers\imagick {
 
 	class image extends imgtool\drivers\image {
 
+		////////////////////////////////////////////////////////////////////////
+		// driver required methods /////////////////////////////////////////////
+
 		public function crop($x,$y,$w,$h) {
 			$ok = $this->img->cropImage($w,$h,$x,$y);
 
@@ -61,6 +64,49 @@ namespace imgtool\drivers\imagick {
 			$this->img->setCompressionQuality($quality);
 
 			return $this->img->writeImage($outfile);		
+		}
+
+		////////////////////////////////////////////////////////////////////////
+		// visual filters //////////////////////////////////////////////////////
+
+		public function desaturate() {
+			$this->img->modulateImage(100,0,100);
+			return;
+		}
+
+		public function holga() {
+			$width = $this->width;
+			$height = $this->height;
+			$vigx = $width / 4;
+			$vigy = $height / 4;
+
+
+			// adjust the image.
+			$quant = $this->img->getQuantumRange()['quantumRangeLong'];
+			$this->img->levelImage(
+				floor((23 * $quant) / 255),
+				2.35,
+				floor((213 * $quant) / 255)
+			);
+
+			$this->img->contrastImage(-40);
+			$this->img->blurImage(1,1);
+		
+			// fading out the edges.
+			$this->img->setImageBackgroundColor('black');
+			$this->img->vignetteImage(
+				($vigx*0.3),
+				($vigx*0.3),
+				($vigx/5)*-1,
+				($vity/5)*-1
+			);
+
+			return;
+		}
+
+		public function sepia() {
+			$this->img->sepiaToneImage(80);
+			return;
 		}
 
 	}

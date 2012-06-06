@@ -9,6 +9,9 @@ namespace imgtool\drivers\gd {
 
 	class image extends imgtool\drivers\image {
 
+		////////////////////////////////////////////////////////////////////////
+		// driver required methods /////////////////////////////////////////////
+
 		public function crop($x,$y,$w,$h) {
 			$new = imagecreatetruecolor($w,$h);
 
@@ -127,6 +130,77 @@ namespace imgtool\drivers\gd {
 			}	
 
 			return false;		
+		}
+
+		////////////////////////////////////////////////////////////////////////
+		// visual filters //////////////////////////////////////////////////////
+
+		public function desaturate() {
+			imagefilter($this->img,IMG_FILTER_GRAYSCALE);
+			return;
+		}
+
+		public function holga() {
+
+			$shadow = imagecreatetruecolor($this->width,$this->height);
+			imageantialias($shadow,true);
+			imagealphablending($shadow,true);
+			imagesavealpha($shadow,true);
+			imagesetthickness($shadow,2);
+
+			$clear = imagecolorallocatealpha($shadow,0,0,0,127);
+
+			imagefill($shadow,0,0,$clear);
+
+			$x = floor($this->width / 2);
+			$y = floor($this->height / 2);
+			$ringcount = (($x + $y) / 2);
+
+			for($a = 0; $a < $ringcount; $a++) {
+				$ringcolor = imagecolorallocatealpha(
+					$shadow,
+					0,0,0,
+					(127 - floor(40 * ($a / $ringcount)))
+				);
+
+				imagearc(
+					$shadow,
+					$x,$y,
+					($this->width+$a), ($this->height+$a),
+					0, 359.9,
+					$ringcolor
+				);
+
+				imageellipse(
+					$shadow,
+					$x,$y,
+					($this->width+$a), ($this->height+$a),
+					$ringcolor
+				);
+
+			}
+
+			imagefilter($this->img,IMG_FILTER_CONTRAST,-20);
+			imagefilter($this->img,IMG_FILTER_BRIGHTNESS,50);
+
+			imagecopyresampled(
+				$this->img,
+				$shadow,
+				0,0,
+				0,0,
+				$this->width,$this->height,
+				$this->width,$this->height
+			);
+
+			imagefilter($this->img,IMG_FILTER_SMOOTH,5);
+
+			imagedestroy($shadow);
+		}
+
+		public function sepia() {
+			imagefilter($this->img,IMG_FILTER_GRAYSCALE);
+			imagefilter($this->img,IMG_FILTER_COLORIZE,90,40,3);
+			return;
 		}
 
 	}
