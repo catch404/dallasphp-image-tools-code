@@ -69,6 +69,27 @@ namespace imgtool\drivers\imagick {
 		////////////////////////////////////////////////////////////////////////
 		// visual filters //////////////////////////////////////////////////////
 
+		public function alpha($percent) {
+			$alpha = $percent / 100;
+
+			/* we couldn't use setImageOpacity() because it lol all over the
+			already transparent pixels (as it technically should) */
+
+			$iter = $this->img->getPixelIterator();
+			foreach($iter as $rowdata) {
+				foreach($rowdata as $pixel) {
+					$current = $pixel->getColorValue(\Imagick::COLOR_ALPHA);
+					$pixel->setColorValue(
+						\Imagick::COLOR_ALPHA,
+						(($current - $alpha > 0)?($current - $alpha):(0))
+					);
+					$iter->syncIterator();
+				}
+			}
+
+			return;
+		}
+
 		public function desaturate() {
 			$this->img->modulateImage(100,0,100);
 			return;
@@ -106,6 +127,20 @@ namespace imgtool\drivers\imagick {
 
 		public function sepia() {
 			$this->img->sepiaToneImage(80);
+			return;
+		}
+
+		public function watermark($filename) {
+			$overlay = new imgtool\image($filename);
+			$overlay->desaturate();
+			$overlay->alpha(70);
+
+			$this->img->compositeImage(
+				$overlay->img,
+				\Imagick::COMPOSITE_DEFAULT,
+				($this->width-$overlay->width),($this->height-$overlay->height)
+			);
+
 			return;
 		}
 

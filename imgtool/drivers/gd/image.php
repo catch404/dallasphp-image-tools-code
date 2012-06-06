@@ -135,6 +135,28 @@ namespace imgtool\drivers\gd {
 		////////////////////////////////////////////////////////////////////////
 		// visual filters //////////////////////////////////////////////////////
 
+		public function alpha($percent) {
+			$alpha = floor((127 * $percent) / 100);
+
+			imagealphablending($this->img,false);
+			for($y = 1; $y <= $this->height; $y++) {
+				for($x = 1; $x <= $this->width; $x++) {
+					$rgba = imagecolorsforindex($this->img,imagecolorat($this->img,$x,$y));
+					$color = imagecolorallocatealpha(
+						$this->img,
+						$rgba['red'],
+						$rgba['green'],
+						$rgba['blue'],
+						((($rgba['alpha'] + $alpha) < 127)?(($rgba['alpha'] + $alpha)):(127))
+					);
+					imagesetpixel($this->img,$x,$y,$color);
+				}
+			}
+			imagealphablending($this->img,true);
+
+			return;
+		}
+
 		public function desaturate() {
 			imagefilter($this->img,IMG_FILTER_GRAYSCALE);
 			return;
@@ -200,6 +222,23 @@ namespace imgtool\drivers\gd {
 		public function sepia() {
 			imagefilter($this->img,IMG_FILTER_GRAYSCALE);
 			imagefilter($this->img,IMG_FILTER_COLORIZE,90,40,3);
+			return;
+		}
+
+		public function watermark($filename) {
+			$overlay = new imgtool\image($filename);
+			$overlay->desaturate();
+			$overlay->alpha(70);
+
+			imagecopyresampled(
+				$this->img,
+				$overlay->img,
+				($this->width-$overlay->width),($this->height-$overlay->height),
+				0,0,
+				$overlay->width,$overlay->height,
+				$overlay->width,$overlay->height
+			);
+
 			return;
 		}
 

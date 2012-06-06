@@ -8,7 +8,7 @@ namespace imgtool\drivers {
 		public $width,$height;
 
 		// a resource holder.
-		protected $img;
+		public $img;
 
 		public function __construct($filename) {
 
