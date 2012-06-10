@@ -31,6 +31,16 @@ namespace m {
 
 		ki::queue('m-init',function(){
 			m_require('-lsurface');
+			m_define('m\webroot',dirname(dirname(__FILE__)));
+			m_define('IMGTOOL_DRIVER','imagick');
+
+			$dir = array(
+				webroot.'/media',
+				webroot.'/media/thumbnails',
+				webroot.'/media/views'
+			);
+			foreach($dir as $d) { if(!file_exists($d)) mkdir($d); }
+
 		});
 
 		ki::queue('m-config',function(){

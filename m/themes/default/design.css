@@ -1,0 +1,129 @@
+/* theme stole from catch404.net i can do that because its my site. */
+
+body  {
+	background:url(gfx/greytex-compressed.jpg) top center #444 no-repeat fixed;
+	color:#ddd;
+	font-family:helvetica, arial, sans-serif;
+	font-size:9pt;
+}
+
+h1,h2,h3,h4,li,p { margin:0px 0px 10px 0px; }
+
+a:link,
+a:visited { color:#AC4BAF;text-decoration:none; }
+a:active,
+a:hover,
+a.on { color:#E1A7E3; }
+
+img { border:0px;vertical-align:top; }
+tt { ;color:#AC4BAF;font-weight:bold; }
+
+/* special fonts */
+
+#sidebar .widget,
+#sidebar dl dt,
+#sidebar dl dd,
+#sidebar input,
+.wp-tag-cloud,
+.bml-box-title,
+h1,h2,h3,h4,
+.bitfont { font-family: 'Press Start 2P', sans-serif; }
+
+/* main structs */
+
+#hipster-fade {
+	background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%); /* IE10+ */
+	background: linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
+
+	position:fixed;
+	top:0px;left:0px;
+	width:100%;height:100%;
+	z-index:1;
+}
+
+#hipster-pixel {
+	background:url(gfx/hipster-pixel.png);
+	position:fixed;
+	top:0px;left:0px;
+	width:100%;height:100%;
+	z-index:1;
+}
+
+#construct {
+	position:relative;
+	z-index:10;
+
+	margin:50px auto;
+	width:900px;
+}
+
+#header { margin:0px 0px 10px 0px; }
+
+#sidebar  { float:left;width:173px; }
+#sidebar ul,
+#sidebar dl { display:block;list-style-type:none;margin:0px 0px 30px 0px;padding:0px; }
+#sidebar .widget div:nth-child(1),
+#sidebar dl dt { background:#AC4BAF;margin:0px 0px 10px 0px;padding:6px; }
+#sidebar ul li,
+#sidebar dl dd { background:#444;margin:0px 0px 10px 0px;padding:6px; }
+#sidebar ul li a:link,
+#sidebar dl dd a:link,
+#sidebar ul li a:visited,
+#sidebar dl dd a:visited { color:#ddd;display:block;text-decoration:none; }
+#sidebar ul li:hover,
+#sidebar dl dd:hover { background:#AC4BAF; }
+#sidebar ul li:hover a:link,
+#sidebar dl dd:hover a:link,
+#sidebar ul li:hover a:visited,
+#sidebar dl dd:hover a:visited,
+#sidebar ul li:hover a:active,
+#sidebar dl dd:hover a:active,
+#sidebar ul li:hover a:hover,
+#sidebar dl dd:hover a:hover { color:#2C0B01; }
+
+#sidebar .search { margin:0px 0px 20px 0px;overflow:auto; }
+#sidebar input { font-size:9pt; }
+#sidebar input[type=text] { background:#aaa;border:0px;margin:0px 0px 10px 0px;padding:6px;width:161px; }
+#sidebar input[type=submit] { background:#AC4BAF;border:0px;cursor:pointer;margin:0px 0px 10px 0px;padding:6px; }
+
+
+#index { float:right;width:720px; }
+
+.post { background:#000;margin:0px 0px 20px 0px;overflow:auto; }
+.post > h2,
+.post > h3,
+.post > h4 { padding:16px;margin:0px; }
+.post > div.portal { display:none;background:url(gfx/default.jpg) #AC4BAF;height:128px; }
+.post > div.block { padding:16px;margin:0px; }
+.post > p { font-size:1.2em;padding:16px;margin:0px; }
+.post img { background:#3E243E;border:1px solid #AC4BAF;padding:10px; }
+
+.bml-box {
+	border:1px solid #888;
+	background:#0D0D0D;
+}
+
+.bml-box-title,
+.bml-box-content {
+	padding:6px;
+}
+
+.bml-box-title { color:#444; }
+
+.avatar { float:left; }
+.more-link { display:none; }
+.aligncenter { text-align:center; }
+.alignleft { float:left;margin:0px 10px 10px 0px; }
+
+.thumbnail { float:left; margin:9px; }
+.thumbnail img { height:200px;width:200px; }
+
+.view { margin:9px; }
+.thumbnail img { }
+
+.upload { background:#3E243E;border:1px solid #AC4BAF;padding:10px;margin:10px; }

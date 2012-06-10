@@ -1,11 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>derp</title>
+	<title>Catch404</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="/m/themes/default/design.css" />
+	<link href='http://fonts.googleapis.com/css?family=Press+Start+2P' rel='stylesheet' type='text/css'>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 </head>
 <body>
-<div style="border:1px solid red;">
-<?php m\surface::show('stdout') ?>
+<div id="hipster-pixel"></div>
+<div id="hipster-fade"></div>
+<div id="construct">
+	<div id="header"></div>
+	<div id="sidebar">
+		<a href="/"><img src="/m/themes/default/gfx/logo-dphp.png" style="display:block;margin:0px 0px 10px 0px;" alt="DallasPHP" /></a>
+		<dl>
+			<dt>Main</dt>
+			<dd><a href="/">Home</a></dd>
+			<dd><a href="/upload.php">Uploader</a></dd>
+		</dl>
+	</div>
+	<div id="index">
+
+<?php echo m\surface::show('stdout'); ?>
+
+	</div>
 </div>
+
 </body>
 </html>
