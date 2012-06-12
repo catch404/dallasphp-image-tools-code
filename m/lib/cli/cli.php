@@ -71,6 +71,7 @@ namespace m {
 
 			foreach($input as $argv) {
 				if(preg_match('/--([a-z0-9-]+)(?:(=)(.*))?/i',$argv,$match)) {
+					if(!array_key_exists(2,$match)) $match[2] = '';
 					if($match[2] == '=') $this->argv[$match[1]] = $match[3];
 					else $this->argv[$match[1]] = true;
 				} else {

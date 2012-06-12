@@ -155,8 +155,8 @@ namespace imgtool\drivers\gd {
 			$alpha = floor((127 * $percent) / 100);
 
 			imagealphablending($this->img,false);
-			for($y = 1; $y <= $this->height; $y++) {
-				for($x = 1; $x <= $this->width; $x++) {
+			for($y = 0; $y < $this->height; $y++) {
+				for($x = 0; $x < $this->width; $x++) {
 					$rgba = imagecolorsforindex($this->img,imagecolorat($this->img,$x,$y));
 					$color = imagecolorallocatealpha(
 						$this->img,

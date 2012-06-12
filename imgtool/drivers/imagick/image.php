@@ -99,7 +99,7 @@ namespace imgtool\drivers\imagick {
 			$width = $this->width;
 			$height = $this->height;
 			$vigx = $width / 4;
-			$vigy = $height / 4;
+			$vigy = 0;
 
 
 			// adjust the image.
@@ -119,7 +119,7 @@ namespace imgtool\drivers\imagick {
 				($vigx*1.1),
 				($vigx*0.8),
 				($vigx/5)*-1,
-				($vity/5)*-1
+				($vigy/5)*-1
 			);
 
 			return;

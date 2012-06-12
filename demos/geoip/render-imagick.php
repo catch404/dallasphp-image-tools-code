@@ -1,5 +1,6 @@
 <?php
 
+define('IMGTOOL_DRIVER','imagick');
 require(sprintf(
 	'%s/m/application.php',
 	dirname(dirname(dirname(__FILE__)))
@@ -10,7 +11,7 @@ ini_set('memory_limit','3G');
 $cli = new m\cli;
 $mapfile = sprintf('%s/rsrc/earth.jpg',dirname(__FILE__));
 $jsonfile = sprintf('%s/rsrc/geoip.json',dirname(__FILE__));
-$outfile = sprintf('%s/geoip-%s.jpg',dirname(__FILE__),IMGTOOL_DRIVER);
+$outfile = sprintf('%s/geoip-imagickk.jpg',dirname(__FILE__));
 
 if(!file_exists($mapfile) || !file_exists($jsonfile))
 $cli->shutdown('need a map and datafile bro');
@@ -27,13 +28,16 @@ m_printfln('opening map...');
 $imgtool = new imgtool\image($mapfile);
 m_printfln('>> opened at %s',m_exec_time());
 
-// desaturate image
+// desaturate map.
 $imgtool->desaturate();
 m_printfln('>> desaturated at %s',m_exec_time());
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// generic plotting. ///////////////////////////////////////////////////////////
+// imagick plotting. ///////////////////////////////////////////////////////////
+
+$draw = new ImagickDraw;
+$draw->setFillColor(new ImagickPixel('#ff000077'));
 
 foreach($geodat as $iter => $point) {
 	m_printfln(
@@ -46,8 +50,11 @@ foreach($geodat as $iter => $point) {
 	$plotx = ($imgtool->width / 2) + (($point->long * ($imgtool->width/2)) / 180);
 	$ploty = ($imgtool->height / 2) + ((($point->lat*-1) * ($imgtool->height/2)) / 90);
 
-	$imgtool->dot($plotx,$ploty,6,'#ff000077');
+	$draw->ellipse($plotx,$ploty,3,3,0,360);
 }
+
+$imgtool->img->drawImage($draw);
+$draw->destroy();
 m_printfln('>> plotted at %s',m_exec_time());
 
 ////////////////////////////////////////////////////////////////////////////////

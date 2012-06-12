@@ -1,5 +1,9 @@
 <?php
 
+error_reporting(E_ALL & ~E_STRICT);
+// surface library is doing a public/static trick that has been depreciated in
+// 5.4 - while i ponder a replacement im shutting off the strict messages.
+
 define('m\root',dirname(__FILE__));
 define('m\timeinit',gettimeofday(true));
 
