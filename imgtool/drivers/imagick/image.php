@@ -142,6 +142,9 @@ namespace imgtool\drivers\imagick {
 			$draw->setFont($fontfile);
 			$draw->setFontSize($size);
 			$draw->setFillColor($color);
+			$draw->setStrokeColor(new \ImagickPixel('#000000'));
+			$draw->setStrokeAntialias(true);
+			$draw->setStrokeWidth(4);
 
 			$this->img->annotateImage($draw,$x,($y+$size),0,$text);
 
