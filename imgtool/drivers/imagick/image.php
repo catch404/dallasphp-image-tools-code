@@ -130,7 +130,7 @@ namespace imgtool\drivers\imagick {
 			return;
 		}
 
-		public function text($x,$y,$font,$size,$color,$text) {
+		public function text($x,$y,$font,$size,$color,$text,$stroke=false) {
 			$color = new \ImagickPixel($color);
 			$fontfile = sprintf(
 				'%s/share/fonts/%s.ttf',
@@ -142,9 +142,12 @@ namespace imgtool\drivers\imagick {
 			$draw->setFont($fontfile);
 			$draw->setFontSize($size);
 			$draw->setFillColor($color);
-			$draw->setStrokeColor(new \ImagickPixel('#000000'));
-			$draw->setStrokeAntialias(true);
-			$draw->setStrokeWidth(4);
+
+			if($stroke) {
+				$draw->setStrokeColor(new \ImagickPixel('#000000'));
+				$draw->setStrokeAntialias(true);
+				$draw->setStrokeWidth(4);
+			}
 
 			$this->img->annotateImage($draw,$x,($y+$size),0,$text);
 
@@ -172,11 +175,15 @@ namespace imgtool\drivers\imagick {
 			$x -= floor($diam/2);
 			$y -= floor($diam/2);
 
+			$color = new \ImagickPixel($color);
+
 			$draw = new \ImagickDraw;
-			$draw->setFillColor(new \ImagickPixel($color));
+			$draw->setFillColor($color);
 			$draw->ellipse($x,$y,($diam/2),($diam/2),0,360);
 
 			$this->img->drawImage($draw);
+			$color->destroy();
+			$draw->destroy();
 
 			return;
 		}

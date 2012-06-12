@@ -14,14 +14,16 @@ $tool->text(
 	45,0,
 	'sans13black',90,
 	'#ffffff',
-	'DID YOU SAY'
+	'DID YOU SAY',
+	true
 );
 
 $tool->text(
 	20,($tool->height - 160),
 	'sans13black',140,
 	'#ffffff',
-	'PONIES?'
+	'PONIES?',
+	true
 );
 
 $tool->save('output.png');

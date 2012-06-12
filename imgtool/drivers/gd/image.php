@@ -241,7 +241,7 @@ namespace imgtool\drivers\gd {
 			return;
 		}
 
-		public function text($x,$y,$font,$size,$color,$text) {
+		public function text($x,$y,$font,$size,$color,$text,$stroke=false) {
 			$color = $this->allocateColorFromHex($color);
 			$fontfile = sprintf(
 				'%s/share/fonts/%s.ttf',

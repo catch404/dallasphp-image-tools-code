@@ -5,11 +5,18 @@ require('demos/webapp.php');
 
 
 if(array_key_exists('derp',$_FILES)) {
+	
+//	echo '<pre>';
+//	print_r($_FILES['derp']);
+//	echo '</pre>';
+//	die();
+
 	$files = (object)$_FILES['derp'];
 	$filecount = count($files->tmp_name);
 
 	for($a = 0; $a < $filecount; $a++) {
-		if(!preg_match('/\.(jpe?g|png)$/i',$files->name[$a])) continue;
+		if(!preg_match('/\.(jpe?g|png)$/i',$files->name[$a]))
+		continue;
 
 		rename($files->tmp_name[$a],sprintf(
 			'%s/media/%s',

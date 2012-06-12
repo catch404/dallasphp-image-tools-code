@@ -5,7 +5,7 @@ require(sprintf(
 	dirname(dirname(dirname(__FILE__)))
 ));
 
-ini_set('memory_limit','2G');
+ini_set('memory_limit','3G');
 
 $cli = new m\cli;
 $mapfile = sprintf('%s/rsrc/earth.jpg',dirname(__FILE__));
@@ -15,6 +15,9 @@ $outfile = sprintf('%s/geoip-%s.jpg',dirname(__FILE__),IMGTOOL_DRIVER);
 if(!file_exists($mapfile) || !file_exists($jsonfile))
 $cli->shutdown('need a map and datafile bro');
 
+if($cli->format) $format = $cli->format;
+else $format = 'jpg';
+
 // load the data file.
 $geodat = json_decode(file_get_contents($jsonfile));
 if(!is_array($geodat)) $cli->shutdown('data file looks bish');
@@ -22,7 +25,10 @@ if(!is_array($geodat)) $cli->shutdown('data file looks bish');
 // load the image.
 m_printfln('opening map...');
 $imgtool = new imgtool\image($mapfile);
+m_printfln('>> opened at %s',m_exec_time());
+
 $imgtool->desaturate();
+m_printfln('>> desaturated at %s',m_exec_time());
 
 // plot all the data points on the image.
 foreach($geodat as $iter => $point) {
@@ -33,10 +39,15 @@ foreach($geodat as $iter => $point) {
 
 	$imgtool->dot($plotx,$ploty,6,'#ff000077');
 }
+m_printfln('>> plotted at %s',m_exec_time());
+
 
 // save map to disk.
-m_printfln('saving map to disk...');
-$imgtool->save($outfile,100);
+if($format !== 'jpg')
+$outfile = str_replace('.jpg',".{$format}",$outfile);
+
+m_printfln('saving map to disk %s...',basename($outfile));
+$imgtool->save($outfile,90);
 
 m_printfln(
 	'done (%s, %s MB RAM)',
