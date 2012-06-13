@@ -6,6 +6,9 @@ being a full stack with drivers to allow a single API to use different libraries
 to demo GD and Imagick from the same script. It works via autoloading. The same
 system also powers the web upload demo.
 
+The Presentation: http://catch404.net/2012/06/pixel-punching-php-presentation-from-dallasphp/
+
+
 Demo Environment
 --------------------------------------------------------------------------------
 * Windows 7
@@ -16,6 +19,7 @@ Demo Environment
 DISCLAIMER: THIS IS ALPHA QUALITY STUFF EVERYPONY. This was worked on for about
 a week for the presentation. It is released under the 2-Clause BSD license, so
 if you try to power your actual website and it explodes, awl snap.
+
 
 License
 ================================================================================
