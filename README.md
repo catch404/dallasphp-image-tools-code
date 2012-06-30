@@ -6,7 +6,8 @@ being a full stack with drivers to allow a single API to use different libraries
 to demo GD and Imagick from the same script. It works via autoloading. The same
 system also powers the web upload demo.
 
-The Presentation: http://catch404.net/2012/06/pixel-punching-php-presentation-from-dallasphp/
+The Presentation (DallasPHP): http://catch404.net/2012/06/pixel-punching-php-presentation-from-dallasphp/
+Lone Star PHP 2012 Version: https://speakerdeck.com/u/bobmajdakjr/p/pixel-punching-with-php
 
 
 Demo Environment
